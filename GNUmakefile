@@ -118,7 +118,7 @@ LDSOFLAGS ?= -shared
 # --- Non-user-configurable source info begins here ---
 CFLAGS += -Isrc -DMATRIX_X=$(MATRIX_X) -DMATRIX_Y=$(MATRIX_Y) -DSDL_SCALE_FACTOR=$(SDL_SCALE_FACTOR)
 CFLAGS += -DDEFAULT_OUTMOD=\"$(DEFAULT_OUTMOD)\" -DDEFAULT_MODULEDIR=\"$(DEFAULT_MODULEDIR)\"
-
+CFLAGS += -DLIBFTDI1=1
 SOURCES := src/asl.c      src/main.c        src/mod.c
 SOURCES += src/matrix.c   src/random.c      src/timers.c  src/util.c
 SOURCES += src/color.c    src/graphics.c    src/mathey.c
