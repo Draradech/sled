@@ -37,7 +37,7 @@ int draw(int moduleid, int argc, char* argv[])
       switch(mode)
       {
         case 0:
-          matrix_set(x, y, RGB(randn(tmode + 1), randn(tmode + 1), randn(tmode + 1)));
+          matrix_set(x, y, RGB(xorshf96()%(tmode + 1), xorshf96()%(tmode + 1), xorshf96()%(tmode + 1)));
           tlimit = 256;
           break;
         case 1:
