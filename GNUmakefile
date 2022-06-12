@@ -14,7 +14,7 @@ GFXMODS_AVAILABLE += gfx_ghostery gfx_ursuppe gfx_afterglow gfx_fire
 GFXMODS_AVAILABLE += gfx_no13 gfx_candyswarm gfx_ursuppe2 gfx_rule90
 GFXMODS_AVAILABLE += gfx_maze gfx_invfourier gfx_colorwheel gfx_snek
 GFXMODS_AVAILABLE += gfx_autoterminal gfx_wator gfx_noisewarp gfx_test
-GFXMODS_AVAILABLE += gfx_multicell gfx_pheromones
+GFXMODS_AVAILABLE += gfx_multicell gfx_pheromones gfx_testpattern
 GFXMODS_AVAILABLE += gfx_lorenz gfx_attractor
 
 BGMMODS_AVAILABLE += bgm_fish bgm_opc bgm_xyscope bgm_pixelflut
