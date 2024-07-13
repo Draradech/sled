@@ -13,6 +13,7 @@ GFXMODS_SELECTED += gfx_candyswarm gfx_ursuppe2 gfx_rule90
 GFXMODS_SELECTED += gfx_maze gfx_invfourier gfx_colorwheel
 GFXMODS_SELECTED += gfx_wator gfx_noisewarp gfx_attractor
 GFXMODS_SELECTED += gfx_multicell gfx_pheromones gfx_lorenz
+GFXMODS_SELECTED += gfx_pickover gfx_voronoi gfx_voronoi2
 
 MODULES := out_$(DEFAULT_OUTMOD) bgm_fish
 
