@@ -229,7 +229,6 @@ int render(void)
   }
   double bright = (double)pixsum / (WIDTH * HEIGHT);
   double fade = 127.0 / bright;
-  fade = sqrt(fade);
   fade = MIN(1.0, fade);
   if (hour > 8 && hour < 22)
   {
