@@ -101,8 +101,8 @@ Vec3d itom(int ix, int iy)
 
 void mtov(Vec3d m, double scale, int *x, int *y)
 {
-  *x = (m.x * (1.0 + m.z * 0.7) * scale + 0.5) * screenW * MULTISAMPLE + frand(4.0);
-  *y = (m.y * (1.0 + m.z * 0.7) * scale + 0.5) * screenH * MULTISAMPLE + frand(4.0);
+  *x = (m.x * (1.0 + m.z * 0.7) * scale + 0.5) * screenW * MULTISAMPLE + frand(2.0);
+  *y = (m.y * (1.0 + m.z * 0.7) * scale + 0.5) * screenH * MULTISAMPLE + frand(2.0);
 }
 
 Vec3d rotateY(Vec3d m, double a)
@@ -146,12 +146,11 @@ int draw(int moduleid, int argc, char* argv[])
     for (int ix = 0; ix < iw; ++ix)
     {
       if (!idata[iy * iw + ix]) continue;
-      int x, y;
       Vec3d m = itom(ix, iy);
       Vec3d mr = rotateY(m, t);
       double inten = (mr.z + 0.75);
       inten = MIN(inten, 1.0);
-      int i;
+      int i, x, y;
       RGB col;
       mtov(mr, 1.0, &x, &y);
       col = scheme(m, mr, x, y);
