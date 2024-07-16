@@ -13,6 +13,7 @@
 #define FRAMETIME (T_SECOND / FPS)
 #define FRAMES (TIME_LONG * FPS)
 #define LIMIT(x, a, b) ((x) < (a) ? (a) : ((x) > (b) ? (b) : (x)))
+#define MULTISAMPLE 3
 
 typedef struct
 {
@@ -27,6 +28,7 @@ static int frame;
 static double t;
 static uint16_t iw, ih, is;
 static uint8_t *idata;
+static RGB *msample;
 
 void read_image(void)
 {
@@ -75,6 +77,7 @@ int init(int moduleid, char* argstr)
    screenW = matrix_getx();
    screenH = matrix_gety();
    read_image();
+   msample = malloc(screenW * screenH * MULTISAMPLE * MULTISAMPLE * sizeof(RGB));
    return 0;
 }
 
@@ -95,8 +98,8 @@ Vec3d itom(int ix, int iy)
 
 void mtov(Vec3d m, int *x, int *y)
 {
-  *x = (m.x * (1.0 + m.z * 0.7) + 0.5) * screenW;
-  *y = (m.y * (1.0 + m.z * 0.7) + 0.5) * screenH;
+  *x = (m.x * (1.0 + m.z * 0.7) + 0.5) * screenW * MULTISAMPLE + frand(MULTISAMPLE);
+  *y = (m.y * (1.0 + m.z * 0.7) + 0.5) * screenH * MULTISAMPLE + frand(MULTISAMPLE);
 }
 
 Vec3d rotateY(Vec3d m, double a)
@@ -113,26 +116,9 @@ int draw(int moduleid, int argc, char* argv[])
 {
   oscore_time now = udate();
   
-  /*
-  uint16_t is = MAX(iw, ih);
-  for (int y = 0; y < screenH; ++y)
-  {
-    for (int x = 0; x < screenW; ++x)
-    {
-      double cx = ((double)x - screenW / 2) / (screenW / 2);
-      double cy = ((double)y - screenH / 2) / (screenH / 2);
-      uint16_t ix = ((cx + 1) * is - (is - iw)) / 2;
-      uint16_t iy = ((cy + 1) * is - (is - ih)) / 2;
-      uint8_t data = (ix >= 0 && ix < iw && iy >= 0 & iy < ih) ? idata[iy * iw + ix] : 0;
-      data = data ? 255 : 0;
-      matrix_set(x, y, RGB(data, data, data));
-    }
-  }
-  */
-  
   matrix_clear();
+  memset(msample, 0, screenW * screenH * MULTISAMPLE * MULTISAMPLE * sizeof(RGB));
   
-  int is = MAX(iw, ih);
   for (int iy = 0; iy < ih; ++iy)
   {
     for (int ix = 0; ix < iw; ++ix)
@@ -141,10 +127,35 @@ int draw(int moduleid, int argc, char* argv[])
       int x, y;
       Vec3d m = itom(ix, iy);
       m = rotateY(m, t);
-      int col = (m.z + 0.75) * 255;
-      col = LIMIT(col, 0, 255);
+      double inten = (m.z + 0.75);
+      inten = MIN(inten, 1.0);
       mtov(m, &x, &y);
-      matrix_set(x, y, RGB(col, col, col));
+      msample[y * screenW * MULTISAMPLE + x].red = MAX(msample[y * screenW * MULTISAMPLE + x].red, inten * (m.y + 0.5) * 255);
+      msample[y * screenW * MULTISAMPLE + x].green = MAX(msample[y * screenW * MULTISAMPLE + x].green, inten * (0.5 - m.y) * 255);
+      msample[y * screenW * MULTISAMPLE + x].blue = MAX(msample[y * screenW * MULTISAMPLE + x].blue, inten * (0.5) * 255);
+    }
+  }
+  
+  double r, g, b;  
+  for (int y = 0; y < screenH; ++y)
+  {
+    for (int x = 0; x < screenW; ++x)
+    {
+      r = 0;
+      g = 0;
+      b = 0;
+      for (int iy = 0; iy < MULTISAMPLE; iy++)
+      {
+        for (int ix = 0; ix < MULTISAMPLE; ix++)
+        {
+          r += msample[(y * MULTISAMPLE + iy) * screenW * MULTISAMPLE + x * MULTISAMPLE + ix].red;
+          g += msample[(y * MULTISAMPLE + iy) * screenW * MULTISAMPLE + x * MULTISAMPLE + ix].green;
+          b += msample[(y * MULTISAMPLE + iy) * screenW * MULTISAMPLE + x * MULTISAMPLE + ix].blue;
+        }
+      }
+      double f = 1.0 / (MULTISAMPLE * MULTISAMPLE);
+      RGB col = RGB(r * f, g * f, b * f);
+      matrix_set(x, y, col);
     }
   }
   
