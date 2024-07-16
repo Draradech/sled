@@ -157,11 +157,11 @@ int draw(int moduleid, int argc, char* argv[])
       col = scheme(m, mr, x, y);
       i = y * screenW * MULTISAMPLE + x;
       msample[i].red =   MAX(msample[i].red,   inten * col.red);
-      mtov(mr, 0.98, &x, &y);
+      mtov(mr, 0.99, &x, &y);
       col = scheme(m, mr, x, y);
       i = y * screenW * MULTISAMPLE + x;
       msample[i].green = MAX(msample[i].green, inten * col.green);
-      mtov(mr, 0.96, &x, &y);
+      mtov(mr, 0.98, &x, &y);
       col = scheme(m, mr, x, y);
       i = y * screenW * MULTISAMPLE + x;
       msample[i].blue =  MAX(msample[i].blue,  inten * col.blue);
