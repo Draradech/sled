@@ -13,7 +13,7 @@
 #define FRAMETIME (T_SECOND / FPS)
 #define FRAMES (TIME_LONG * FPS)
 #define LIMIT(x, a, b) ((x) < (a) ? (a) : ((x) > (b) ? (b) : (x)))
-#define MULTISAMPLE 3
+#define MULTISAMPLE 2
 
 typedef struct
 {
@@ -83,14 +83,14 @@ int init(int moduleid, char* argstr)
 
 void reset(int moduleid)
 {
-  t = frand(1e6);
+  t = frand(6.28);
 }
 
 Vec3d itom(int ix, int iy)
 {
   Vec3d m;
-  m.x = (double) (ix + (is - iw) / 2) / is - 0.5;
-  m.y = (double) (iy + (is - ih) / 2) / is - 0.5;
+  m.x = ((double) (ix + (is - iw) / 2) / is - 0.5) * 0.98;
+  m.y = ((double) (iy + (is - ih) / 2) / is - 0.5) * 0.98;
   m.z = 0;
   
   return m;
@@ -98,8 +98,8 @@ Vec3d itom(int ix, int iy)
 
 void mtov(Vec3d m, int *x, int *y)
 {
-  *x = (m.x * (1.0 + m.z * 0.7) + 0.5) * screenW * MULTISAMPLE + frand(MULTISAMPLE);
-  *y = (m.y * (1.0 + m.z * 0.7) + 0.5) * screenH * MULTISAMPLE + frand(MULTISAMPLE);
+  *x = (m.x * (1.0 + m.z * 0.7) + 0.5) * screenW * MULTISAMPLE + frand(4.0);
+  *y = (m.y * (1.0 + m.z * 0.7) + 0.5) * screenH * MULTISAMPLE + frand(4.0);
 }
 
 Vec3d rotateY(Vec3d m, double a)
@@ -130,9 +130,9 @@ int draw(int moduleid, int argc, char* argv[])
       double inten = (m.z + 0.75);
       inten = MIN(inten, 1.0);
       mtov(m, &x, &y);
-      msample[y * screenW * MULTISAMPLE + x].red = MAX(msample[y * screenW * MULTISAMPLE + x].red, inten * (m.y + 0.5) * 255);
-      msample[y * screenW * MULTISAMPLE + x].green = MAX(msample[y * screenW * MULTISAMPLE + x].green, inten * (0.5 - m.y) * 255);
-      msample[y * screenW * MULTISAMPLE + x].blue = MAX(msample[y * screenW * MULTISAMPLE + x].blue, inten * (0.5) * 255);
+      msample[y * screenW * MULTISAMPLE + x].red = MAX(msample[y * screenW * MULTISAMPLE + x].red, inten * (m.y * 1.33 + 0.5) * 255);
+      msample[y * screenW * MULTISAMPLE + x].green = MAX(msample[y * screenW * MULTISAMPLE + x].green, inten * (0.5 - m.y * 1.33) * 255);
+      msample[y * screenW * MULTISAMPLE + x].blue = MAX(msample[y * screenW * MULTISAMPLE + x].blue, inten * (0.75) * 255);
     }
   }
   
@@ -154,7 +154,7 @@ int draw(int moduleid, int argc, char* argv[])
         }
       }
       double f = 1.0 / (MULTISAMPLE * MULTISAMPLE);
-      RGB col = RGB(r * f, g * f, b * f);
+      RGB col = RGB(MIN(r * f, 255), MIN(g * f, 255), MIN(b * f, 255));
       matrix_set(x, y, col);
     }
   }
