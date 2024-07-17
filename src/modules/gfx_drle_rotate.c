@@ -115,16 +115,16 @@ Vec3d rotateY(Vec3d m, double a)
   return o;
 }
 
-RGB scheme(Vec3d m, Vec3d mr, int x, int y)
+RGB scheme(Vec3d m)
 {
   RGB col;
 
   switch(cscheme)
   {
     case 0:
-      col.red =   MIN(mr.y * 1.33 + 0.5, 1.0) * 255;
-      col.green = MIN(0.5 - mr.y * 1.33, 1.0) * 255;
-      col.blue =  MIN(0.75,              1.0) * 255;
+      col.red =   MIN(m.y * 1.33 + 0.5, 1.0) * 255;
+      col.green = MIN(0.5 - m.y * 1.33, 1.0) * 255;
+      col.blue =  MIN(0.75,             1.0) * 255;
       break;
     case 1:
       col.red =   255;
@@ -151,30 +151,29 @@ int draw(int moduleid, int argc, char* argv[])
       double inten = (mr.z + 0.75);
       inten = MIN(inten, 1.0);
       int i, x, y;
-      RGB col;
+      RGB col = scheme(m);
+      
       mtov(mr, 1.0, &x, &y);
-      col = scheme(m, mr, x, y);
       i = y * screenW * MULTISAMPLE + x;
       msample[i].red =   MAX(msample[i].red,   inten * col.red);
+      
       mtov(mr, 0.99, &x, &y);
-      col = scheme(m, mr, x, y);
       i = y * screenW * MULTISAMPLE + x;
       msample[i].green = MAX(msample[i].green, inten * col.green);
+      
       mtov(mr, 0.98, &x, &y);
-      col = scheme(m, mr, x, y);
       i = y * screenW * MULTISAMPLE + x;
       msample[i].blue =  MAX(msample[i].blue,  inten * col.blue);
     }
   }
   
-  matrix_clear();
   for (int y = 0; y < screenH; ++y)
   {
     for (int x = 0; x < screenW; ++x)
     {
-      double r = 0;
-      double g = 0;
-      double b = 0;
+      uint16_t r = 0;
+      uint16_t g = 0;
+      uint16_t b = 0;
       for (int iy = 0; iy < MULTISAMPLE; ++iy)
       {
         for (int ix = 0; ix < MULTISAMPLE; ++ix)
@@ -185,8 +184,7 @@ int draw(int moduleid, int argc, char* argv[])
           b += msample[i].blue;
         }
       }
-      double f = 1.0 / (MULTISAMPLE * MULTISAMPLE);
-      RGB col = RGB(r * f, g * f, b * f);
+      RGB col = RGB(r / (MULTISAMPLE * MULTISAMPLE), g / (MULTISAMPLE * MULTISAMPLE), b / (MULTISAMPLE * MULTISAMPLE));
       matrix_set(x, y, col);
     }
   }
