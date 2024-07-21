@@ -13,11 +13,10 @@ GFXMODS_SELECTED += gfx_candyswarm gfx_ursuppe2 gfx_rule90
 GFXMODS_SELECTED += gfx_maze gfx_invfourier gfx_colorwheel
 GFXMODS_SELECTED += gfx_wator gfx_noisewarp gfx_attractor
 GFXMODS_SELECTED += gfx_multicell gfx_pheromones gfx_lorenz
-GFXMODS_SELECTED += gfx_pickover gfx_voronoi gfx_drle_rotate gfx_circles
+GFXMODS_SELECTED += gfx_pickover gfx_voronoi gfx_drle_rotate
+GFXMODS_SELECTED += gfx_circles gfx_belou_zhabo_ca
 
 MODULES := out_$(DEFAULT_OUTMOD) bgm_fish
 
 MODULES += $(GFXMODS_SELECTED)
-#MODULES += gfx_particles
-#MODULES += gfx_testpattern
 
