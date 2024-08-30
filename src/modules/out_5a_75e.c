@@ -214,7 +214,8 @@ int render(void)
 {
   time_t tm_now = time(NULL);
   struct tm *tm_struct = localtime(&tm_now);
-  int hour = tm_struct->tm_hour;
+  float hour = tm_struct->tm_hour + tm_struct->tm_minute / 60.0;
+  int minute = 
 
   // analyse
   int pixsum = 0;
@@ -230,7 +231,7 @@ int render(void)
   double bright = (double)pixsum / (WIDTH * HEIGHT);
   double fade = 127.0 / bright;
   fade = MIN(1.0, fade);
-  if (hour > 8 && hour < 22)
+  if (hour > 6 && hour < 20.5)
   {
     fade = 1.0;
   }
