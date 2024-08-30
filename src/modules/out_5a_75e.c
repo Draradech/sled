@@ -214,8 +214,7 @@ int render(void)
 {
   time_t tm_now = time(NULL);
   struct tm *tm_struct = localtime(&tm_now);
-  float hour = tm_struct->tm_hour + tm_struct->tm_minute / 60.0;
-  int minute = 
+  float hour = tm_struct->tm_hour + tm_struct->tm_min / 60.0;
 
   // analyse
   int pixsum = 0;
