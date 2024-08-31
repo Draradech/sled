@@ -229,22 +229,12 @@ int render(void)
   }
   double bright = (double)pixsum / (WIDTH * HEIGHT);
   double fade = 127.0 / bright;
-  fade = MIN(1.0, fade);
+  fade = MIN(0.66, fade);
+  // TODO: get location from commandline, implement equation of time for sunset and sunrise
   if (hour > 6 && hour < 20.5)
   {
     fade = 1.0;
   }
-  
-  /*
-  static oscore_time last_p = 0;
-  oscore_time now_p = udate();
-  oscore_time elapsed_p = now_p - last_p;
-  if (elapsed_p > 1000000)
-  {
-    printf("(%.2lf, %.2lf, %d)", bright, fade, hour);
-    last_p = now_p;
-  }
-  */
   
   // copy and fade
   for (int y = 0; y < HEIGHT; y++)
