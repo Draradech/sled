@@ -190,8 +190,10 @@ static void ctrl_sh_execute(char * mid, asl_av_t * args, ctrl_buffer_t * client)
 		net_send(client, str, len);
 	len = 0;
 	for (int i = 0; i < args->argc; i++)
+	{
     if (i > 0) len += snprintf(str + len, 128 - len, ",");
     len += snprintf(str + len, 128 - len, " '%s'", args->argv[i]);
+  }
   len += snprintf(str + len, 128 - len, "\n");
 	if (len > 0 && len < 128)
 		net_send(client, str, len);
