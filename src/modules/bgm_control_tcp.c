@@ -177,6 +177,15 @@ static void ctrl_sh_execute(char * mid, asl_av_t * args, ctrl_buffer_t * client)
 			net_send(client, str, len);
 		return;
 	}
+	if (!strcmp(mid, "/next")) {
+		free(mid);
+		int len = snprintf(str, 128, "queued random module\n");
+		if (len > 0 && len < 128)
+			net_send(client, str, len);
+		timer_add(0, -2, 0, NULL);
+		timers_wait_until_break();
+		return;
+	}
 	// "/then /blank" is a useful tool
 	if (mid[0] == '/') {
 		// "/blank" for example results in "control_tcp /blank"
