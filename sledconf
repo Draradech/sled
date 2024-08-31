@@ -16,7 +16,8 @@ GFXMODS_SELECTED += gfx_multicell gfx_pheromones gfx_lorenz
 GFXMODS_SELECTED += gfx_pickover gfx_voronoi gfx_drle_rotate
 GFXMODS_SELECTED += gfx_circles gfx_belou_zhabo_ca
 
-MODULES := out_$(DEFAULT_OUTMOD) bgm_fish
+MODULES := out_$(DEFAULT_OUTMOD) bgm_fish bgm_pixelflut
 
 MODULES += $(GFXMODS_SELECTED)
 
+CFLAGS += -DPX_MTCOUNTDOWN_MAX=300
