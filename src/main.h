@@ -18,4 +18,6 @@ extern void main_force_random(int moduleno, int argc, char ** argv);
 // Since we might have a different main thing, we need to be called externally.
 extern int sled_main(int argc, char** argv);
 
+extern int current_modid();
+
 #endif
