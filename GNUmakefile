@@ -40,7 +40,7 @@ GFXMODS_DEFAULT += gfx_multicell gfx_pheromones
 GFXMODS_DEFAULT += gfx_attractor
 GFXMODS_DEFAULT += gfx_lorenz gfx_pickover gfx_voronoi gfx_voronoi2
 
-BGMMODS_DEFAULT += bgm_fish bgm_pixelflut
+BGMMODS_DEFAULT += bgm_fish bgm_pixelflut bgm_control_tcp
 FLTMODS_DEFAULT += flt_gamma_correct flt_flip_x flt_flip_y flt_scale flt_rot_90
 FLTMODS_DEFAULT += flt_smapper flt_channel_reorder
 

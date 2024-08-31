@@ -201,6 +201,12 @@ static void interrupt_handler(int sig) {
 	interrupt_count++;
 }
 
+volatile int lastmod = -1;
+int current_modid()
+{
+  return lastmod;
+}
+
 int sled_main(int argc, char** argv) {
 	int ch;
 
@@ -332,7 +338,6 @@ int sled_main(int argc, char** argv) {
 	// Startup.
 	pick_next(-1, udate());
 
-	int lastmod = -1;
 	while (!timers_quitting) {
 		timer tnext = timer_get();
 		if (tnext.moduleno == -1) {
