@@ -210,6 +210,7 @@ int clear(int _modno)
   return 0;
 };
 
+#define FADE_ENABLED 0
 int render(void)
 {
   time_t tm_now = time(NULL);
@@ -231,11 +232,11 @@ int render(void)
   double fade = 127.0 / bright;
   fade = MIN(0.66, fade);
   // TODO: get location from commandline, implement equation of time for sunset and sunrise
-  if (hour > 6 && hour < 20.5)
+  if (!FADE_ENABLED || (hour > 8 && hour < 19))
   {
     fade = 1.0;
   }
-  
+
   // copy and fade
   for (int y = 0; y < HEIGHT; y++)
   {
