@@ -9,15 +9,16 @@ GFXMODS_SELECTED += gfx_candyflow gfx_bttrblls gfx_sort2D gfx_xorrid
 GFXMODS_SELECTED += gfx_starfield gfx_reddot gfx_sparkburn gfx_sort1D
 GFXMODS_SELECTED += gfx_rgbmatrix gfx_mandelbrot2 gfx_disturbedcandy
 GFXMODS_SELECTED += gfx_ghostery gfx_ursuppe gfx_afterglow gfx_fire
-GFXMODS_SELECTED += gfx_candyswarm gfx_ursuppe2 gfx_rule90
+# GFXMODS_SELECTED += gfx_candyswarm gfx_ursuppe2 gfx_rule90
 GFXMODS_SELECTED += gfx_maze gfx_invfourier gfx_colorwheel
-GFXMODS_SELECTED += gfx_wator gfx_noisewarp gfx_attractor
-GFXMODS_SELECTED += gfx_multicell gfx_pheromones gfx_lorenz
+# GFXMODS_SELECTED += gfx_wator gfx_noisewarp gfx_attractor
+# GFXMODS_SELECTED += gfx_multicell gfx_pheromones gfx_lorenz
 GFXMODS_SELECTED += gfx_pickover gfx_voronoi gfx_drle_rotate
 GFXMODS_SELECTED += gfx_circles gfx_belou_zhabo_ca
 
 MODULES := out_$(DEFAULT_OUTMOD) bgm_fish bgm_pixelflut bgm_control_tcp
 
 MODULES += $(GFXMODS_SELECTED)
+MODULES += gfx_text_mod gfx_pyramid
 
 CFLAGS += -DPX_MTCOUNTDOWN_MAX=300
