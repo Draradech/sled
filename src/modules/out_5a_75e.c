@@ -210,7 +210,7 @@ int clear(int _modno)
   return 0;
 };
 
-#define FADE_ENABLED 1
+#define FADE_ENABLED 0
 int render(void)
 {
   time_t tm_now = time(NULL);
